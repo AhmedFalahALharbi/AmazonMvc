@@ -1,0 +1,60 @@
+@model List<AmazonMVC.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="container-fluid">
+
+
+
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 product-card">
+                    <div class="card-img-placeholder bg-light d-flex justify-content-center align-items-center" style="height: 200px;">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate">@product.Name</h5>
+                        <div class="mb-2">
+                            <span class="text-warning">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                            </span>
+                            <small class="text-muted">(124)</small>
+                        </div>
+                        <h4 class="card-text text-danger">$@product.Price.ToString("0.00")</h4>
+                        <p class="card-text small text-truncate">@product.Description</p>
+                        <p class="card-text @(product.StockQuantity < 10 ? "text-danger" : "text-success")">
+                            @if (product.StockQuantity > 0)
+                            {
+                                @:In Stock: @product.StockQuantity
+                            }
+                            else
+                            {
+                                @:Out of Stock
+                            }
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0">
+                        <div class="d-grid gap-2">
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@product.ProductId" class="btn btn-sm btn-primary">View Details</a>
+                            @if (product.StockQuantity > 0)
+                            {
+                                <a href="#" class="btn btn-sm btn-warning">Add to Cart</a>
+                            }
+                            else
+                            {
+                                <button disabled class="btn btn-sm btn-secondary">Out of Stock</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
